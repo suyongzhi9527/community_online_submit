@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>校科协线上报名</title>
+
+    <link rel="stylesheet" href="{% static 'form_1/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'form_1/css/materialize.min.css' %}">
+    <link rel="stylesheet" href="{% static 'form_1/css/tooplate.css' %}">
+</head>
+
+<body id="application" style="background-image: url(/activity_submit{{ background_img.url }})">
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12  mx-auto">
+            <header class="mt-5 mb-5 text-center">
+                <h3><b>{{ title }}</b></h3>
+                <p class="tm-form-description">{{ context }}</p>
+                {% if error_message %}
+                    <p class="tm-form-description" style="color: red">{{ error_message }}</p>
+                {% endif %}
+            </header>
+            <form action="{% url 'submit_form' teammate %}" method="post" enctype="multipart/form-data" class="tm-form-white tm-font-big">
+                {% csrf_token %}
+                <div class="tm-bg-white tm-form-pad-big">
+                    <div class="form-group mb-5">
+                        <b><label for="name" class="black-text mb-4 big">姓名：</label></b>
+                        <input id="id_name" name="name" type="text" class="validate tm-input-white-bg" required>
+                    </div>
+
+                    <div class="form-group mb-5">
+                        <b><label for="class_num" class="black-text mb-4 big" lay-search>学院：</label></b>
+                        <select id="id_academy" name="academy" required>
+                            <option value="">---请选择学院---</option>
+                            {% for aca in academy %}
+                                <option value="{{ aca.academy }}">{{ aca.academy }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group mb-5">
+                        <b><label for="class_num" class="black-text mb-4 big">专业：</label></b>
+                        <select id="id_class_name" name="class_name" required>
+                            <option value="">---请选择专业---</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-5">
+                        <b><label for="class_num" class="black-text mb-4 big">班号：</label></b>
+                        <input id="id_class_num" name="class_num" type="text" class="validate tm-input-white-bg" required pattern="[0-9]{3}">
+                    </div>
+                    {# 只有队员才会显示队伍号框 #}
+                    {% if teammate == '队员' %}
+                        <div class="form-group mb-5">
+                            <b><label for="class_num" class="black-text mb-4 big">队伍号：</label></b>
+                            <input id="id_team_id" name="team_id" type="text" class="validate tm-input-white-bg" required>
+                        </div>
+                    {% endif %}
+                    <div class="form-group mb-5">
+                        <b><label for="stu_id" class="black-text mb-4 big">学号：</label></b>
+                        <input id="id_stu_id" name="stu_id" type="text" class="validate tm-input-white-bg mb-4" required pattern="[0-9]{8}">
+                    </div>
+                    <div class="form-group mb-5">
+                        <b><label for="phone" class="black-text mb-4 big">手机号：</label></b>
+                        <input id="id_phone" name="phone" type="text" class="validate tm-input-white-bg mb-4" required pattern="[0-9]{11}">
+                    </div>
+                    <div class="form-group mb-5">
+                        <b><label for="qq_num" class="black-text mb-4 big">QQ号：</label></b>
+                        <input id="id_qq_num" name="qq_num" type="text" class="validate tm-input-white-bg mb-4" required>
+                    </div>
+                </div>
+                <div class="text-center mt-5">
+                    <button type="submit" class="waves-effect btn-large btn-large-white"><b>提交</b></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer class="row tm-mt-big mb-3">
+        <div class="col-xl-12 text-center">
+            <p class="d-inline-block tm-bg-black white-text py-2 tm-px-5">
+                欢迎加入科协大家庭，深入了解请访问-
+                <a href="http://tw.cczu.edu.cn/dxskx/main.htm" target="_blank" title="科协官网">科协官网</a></p>
+        </div>
+    </footer>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="{% static '/form_1/js/materialize.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $('select').formSelect();
+    });
+</script>
+
+<script>
+    $(function () {
+        $("#id_academy").change(function () {
+            $.getJSON('{% url 'ajax_get' %}', {academy: $(this).val()}, function (json, TextStatus) {
+                //先清空
+                $("#id_class_name").empty().append('<option value="">---请选择专业---</option>');
+                $('id_class_name').formSelect();
+                var options = '';
+                for (var i = 0; i < json.length; i++) {
+                    options += '<option value="' + json[i]['class_name'] + '">' + json[i]['class_name'] + '</option>';
+                    //alert(options);
+                }
+                $("#id_class_name").prepend(options);
+                $('#id_class_name').formSelect();
+            })
+        })
+    })
+</script>
+
+</body>
+
+</html>

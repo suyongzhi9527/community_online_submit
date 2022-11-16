@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>报名已截止</title>
+
+    <link rel="stylesheet" href="{% static 'form_1/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'form_1/css/materialize.min.css' %}">
+    <link rel="stylesheet" href="{% static 'form_1/css/tooplate.css' %}">
+</head>
+
+<body id="application" style="background-image: url(/activity_submit{{ background_img.url }})">
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12  mx-auto">
+            <header class="mt-5 mb-5 text-center">
+                <h3><b>报名已截止</b></h3>
+                <p class="tm-form-description">现在不可以线上报名了哦～</p>
+
+                <br>
+                <p class="tm-form-description">群号码: {{ qq_num }}</p>
+                <p class="tm-form-description">活动名称: {{ title }}</p>
+                <p class="tm-form-description">活动介绍: {{ introduction }}</p>
+                <p class="tm-form-description">活动内容: {{ context }}</p>
+                <img width="200" src="/activity_submit{{ qq_QRcode.url }}" alt="二维码加载失败">
+            </header>
+        </div>
+    </div>
+    <footer class="row tm-mt-big mb-3">
+        <div class="col-xl-12 text-center">
+            <p class="d-inline-block tm-bg-black white-text py-2 tm-px-5">
+                欢迎使用社区活动报名系统
+                <a href="#" target="_blank" title="百度一下">xx官网</a></p>
+        </div>
+    </footer>
+</div>
+
+</body>
+
+</html>
