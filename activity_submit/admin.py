@@ -49,11 +49,3 @@ class AcademyClassInformation(admin.ModelAdmin):
     list_display = ('class_name', 'academy',)
     list_filter = ('academy', 'class_name',)
     search_fields = ('academy', 'class_name',)
-
-"""
-目前情况是这样，我现在公司是做亚马逊跨境电商的嘛，上个月公司把办公室分租去了
-同时主管也跑路我觉得老大都跑了说明情况不太好吧，不过今年大环境下电商公司都不好过。
-现在部门7个人，只有我和另一个同事在负责公司ERP系统业务，其他人在搞区块链。
-因为现在没啥新的业务开发了，现在工作只算是维护一下系统，没什么事做的了就很闲
-然后我就在想要不要跳槽，上周8号就刚好入职满一年。
-"""
